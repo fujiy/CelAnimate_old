@@ -43,11 +43,17 @@ extra-deps:
 - ghcjs-dom-0.9.4.0
 - reflex-0.6.1
 - zenc-0.1.1
+- vect-0.4.7
+- gl-0.7.8.1
+# - ombra-0.1.1.0
 - git: https://github.com/reflex-frp/reflex-dom
   commit: 5ac23be96cfc84bc837cd61dfc03e5e02e431078
   subdirs:
   - reflex-dom
   - reflex-dom-core
+- hylogen-0.1.5.1
+# - git: https://github.com/ziocroc/Ombra
+#   commit: 6cff52daabdfa16a199ffbc958531d97d226a715
 
 # extra-deps: []
 

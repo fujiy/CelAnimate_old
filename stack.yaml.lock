@@ -61,6 +61,20 @@ packages:
   original:
     hackage: zenc-0.1.1
 - completed:
+    hackage: vect-0.4.7@sha256:218bb44622096d1e72772507fac4e073887fa6483f7b64d068d14ed2300ca377,3208
+    pantry-tree:
+      size: 2206
+      sha256: 7b35a2433d7b8d88fa56c58fee97f0820f2f2526b7156194612c5566b7528713
+  original:
+    hackage: vect-0.4.7
+- completed:
+    hackage: gl-0.7.8.1@sha256:0a8cc4e314c7912fd8de3bb7b9196e5f4b9699674f535d72e87ef731a51dbd29,33849
+    pantry-tree:
+      size: 76924
+      sha256: 8a3d65387515cd5668d18f79cdfca750a60d5ffc4e6172b7f056cf81ee7a9501
+  original:
+    hackage: gl-0.7.8.1
+- completed:
     subdir: reflex-dom
     cabal-file:
       size: 4746
@@ -92,6 +106,13 @@ packages:
     subdir: reflex-dom-core
     git: https://github.com/reflex-frp/reflex-dom
     commit: 5ac23be96cfc84bc837cd61dfc03e5e02e431078
+- completed:
+    hackage: hylogen-0.1.5.1@sha256:ff0517b03eb293c322d12da819b981aa028326f1e654eaab971c586825bb1f9b,826
+    pantry-tree:
+      size: 605
+      sha256: 46ad840a926e6cf86c93438b3456dc5048e8f83c4a4d3cb027231de9337db951
+  original:
+    hackage: hylogen-0.1.5.1
 snapshots:
 - completed:
     size: 499889

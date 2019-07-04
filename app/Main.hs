@@ -2,9 +2,9 @@
 
 module Main where
 
-import           Lib
-
 import           Reflex.Dom
 
+import           Editor.Main
+
 main :: IO ()
-main = mainWidget $ el "div" $ text "Welcome to Reflex"
+main = mainWidget editor

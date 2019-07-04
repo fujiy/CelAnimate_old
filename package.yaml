@@ -4,7 +4,7 @@ github:              "fujiy00/celanimate"
 license:             BSD3
 author:              "Yuuki Fujihara"
 maintainer:          "mail@fujiy.me"
-copyright:           "2018 Yuuki Fujihara"
+copyright:           "2019 Yuuki Fujihara"
 
 extra-source-files:
 - README.md
@@ -21,7 +21,20 @@ description:         Please see the README on GitHub at <https://github.com/fuji
 
 dependencies:
 - base >= 4.7 && < 5
+- text
+- bytestring
+- vector
+- lens
+- JuicyPixels
+- ghcjs-dom
+- jsaddle
+- jsaddle-dom
+- reflex-dom-core
 - reflex-dom
+- hylogen
+# - ombra
+
+default-extensions: OverloadedStrings
 
 library:
   source-dirs: src
