@@ -21,7 +21,11 @@ class Editable a where
     save   :: FilePath -> a -> Editor ()
     match  :: FilePath -> a -> Bool
 
+    viewer :: a -> Widget x ()
+
     match path a = True
+
+
 
 class EditableBinary a where
     reader :: BS.ByteString -> Maybe a

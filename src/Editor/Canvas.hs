@@ -5,6 +5,7 @@
 module Editor.Canvas where
 
 import           Control.Monad.IO.Class
+import           Data.Map                            as M
 import           Data.Maybe
 import           Data.Text                           (Text)
 import qualified Data.Text                           as Text
@@ -23,7 +24,7 @@ import           Editor
 
 canvas :: Widget x ()
 canvas = do
-    (e, _) <- el' "canvas" blank
+    (e, _) <- elAttr' "canvas" ("width" =: "1000" <> "height" =: "1000") blank
     cv :: HTMLCanvasElement <- unsafeCastTo HTMLCanvasElement $ _element_raw e
     -- ctx <- getContextUnsafe cv ("2d" :: Text) ([] :: [()])
     --    >>= unsafeCastTo CanvasRenderingContext2D
@@ -32,7 +33,6 @@ canvas = do
 
     w <- getDrawingBufferWidth gl
     h <- getDrawingBufferHeight gl
-
 
     program <- createProgram gl
 
@@ -59,11 +59,11 @@ canvas = do
 
     array <- fmap (uncheckedCastTo ArrayBuffer) $
         liftDOM (new (jsg ("Float32Array" :: Text))
-            [[ 0.0,  0.0,
-               1.0,  0.0,
-               0.0,  1.0,
-               0.0,  1.0,
-               1.0,  0.0,
+            [[ -1.0,  -1.0,
+               1.0,  -1.0,
+               -1.0,  1.0,
+               -1.0,  1.0,
+               1.0,  -1.0,
                1.0,  1.0 :: Double]])
         >>= unsafeCastTo Float32Array
     bufferData gl ARRAY_BUFFER (Just array) STATIC_DRAW
@@ -90,7 +90,7 @@ canvas = do
     texParameteri gl TEXTURE_2D TEXTURE_MAG_FILTER NEAREST
     bindTexture gl TEXTURE_2D $ Just texture
 
-    imageData :: ImageData <- fromJust <$> liftJSM (open "./sample/test.jpg")
+    imageData :: ImageData <- fromJust <$> liftJSM (open "./sample/thinning.jpg")
 
     -- image <- liftDOM (new (jsg ("Uint8ClampedArray" :: Text))
     --     [[255,   0,   0, 255, --
@@ -115,7 +115,7 @@ canvas = do
     texImage2D gl TEXTURE_2D 0 RGBA RGBA UNSIGNED_BYTE $ Just imageData
 
 
-    clearColor gl 0.0 0.0 0.0 1.0
+    clearColor gl 0 0 0 1.0
     clear gl COLOR_BUFFER_BIT
 
 

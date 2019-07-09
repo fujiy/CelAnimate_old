@@ -8,7 +8,7 @@ import           Editor.Canvas
 
 editor :: Widget x ()
 editor = el "div" $ do
-    el "h1" $ text "Hello"
+    el "h1" $ text "Cel"
     canvas
 
 

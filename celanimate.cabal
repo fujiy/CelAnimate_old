@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 14f230401435cafcf297ba4ae056ede8705f75a8bddb35ef53709074a9bb928a
+-- hash: 0c36a481505418427488ffa5824102fb6a62b17d0b464f2cfa1e2c8c3c00597d
 
 name:           celanimate
 version:        0.1.0.0
@@ -28,6 +28,7 @@ source-repository head
 library
   exposed-modules:
       Animate.Image
+      Animate.Project
       Editor
       Editor.Canvas
       Editor.Main
@@ -40,6 +41,7 @@ library
       JuicyPixels
     , base >=4.7 && <5
     , bytestring
+    , containers
     , ghcjs-dom
     , hylogen
     , jsaddle
@@ -64,6 +66,7 @@ executable celanimate-exe
     , base >=4.7 && <5
     , bytestring
     , celanimate
+    , containers
     , ghcjs-dom
     , hylogen
     , jsaddle
@@ -89,6 +92,7 @@ test-suite celanimate-test
     , base >=4.7 && <5
     , bytestring
     , celanimate
+    , containers
     , ghcjs-dom
     , hylogen
     , jsaddle
