@@ -75,6 +75,13 @@ packages:
   original:
     hackage: gl-0.7.8.1
 - completed:
+    hackage: hip-1.5.3.0@sha256:11a3b06a222abae8d2f1da717890b24392de1df22a2c2bb388922565a73dd9be,6400
+    pantry-tree:
+      size: 6566
+      sha256: 1244cf5fe7cd03a20a6b6cb8d4bbdad34472704537e9d1391ffc29a67aeca015
+  original:
+    hackage: hip-1.5.3.0
+- completed:
     subdir: reflex-dom
     cabal-file:
       size: 4746
@@ -106,13 +113,6 @@ packages:
     subdir: reflex-dom-core
     git: https://github.com/reflex-frp/reflex-dom
     commit: 5ac23be96cfc84bc837cd61dfc03e5e02e431078
-- completed:
-    hackage: hylogen-0.1.5.1@sha256:ff0517b03eb293c322d12da819b981aa028326f1e654eaab971c586825bb1f9b,826
-    pantry-tree:
-      size: 605
-      sha256: 46ad840a926e6cf86c93438b3456dc5048e8f83c4a4d3cb027231de9337db951
-  original:
-    hackage: hylogen-0.1.5.1
 snapshots:
 - completed:
     size: 499889

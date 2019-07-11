@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 0c36a481505418427488ffa5824102fb6a62b17d0b464f2cfa1e2c8c3c00597d
+-- hash: b11cf84146e072fcfcd05b2b06efdb71b041454f7da665f86ff0ddb80722ff0f
 
 name:           celanimate
 version:        0.1.0.0
@@ -43,10 +43,11 @@ library
     , bytestring
     , containers
     , ghcjs-dom
-    , hylogen
+    , hip
     , jsaddle
     , jsaddle-dom
     , lens
+    , primitive
     , reflex-dom
     , reflex-dom-core
     , text
@@ -68,10 +69,11 @@ executable celanimate-exe
     , celanimate
     , containers
     , ghcjs-dom
-    , hylogen
+    , hip
     , jsaddle
     , jsaddle-dom
     , lens
+    , primitive
     , reflex-dom
     , reflex-dom-core
     , text
@@ -94,10 +96,11 @@ test-suite celanimate-test
     , celanimate
     , containers
     , ghcjs-dom
-    , hylogen
+    , hip
     , jsaddle
     , jsaddle-dom
     , lens
+    , primitive
     , reflex-dom
     , reflex-dom-core
     , text

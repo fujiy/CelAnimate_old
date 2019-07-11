@@ -23,16 +23,18 @@ dependencies:
 - base >= 4.7 && < 5
 - text
 - bytestring
+- primitive
 - containers
 - vector
 - lens
 - JuicyPixels
+- hip
 - ghcjs-dom
 - jsaddle
 - jsaddle-dom
 - reflex-dom-core
 - reflex-dom
-- hylogen
+# - hylogen
 # - ombra
 
 default-extensions: OverloadedStrings

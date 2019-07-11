@@ -73,12 +73,12 @@ canvas = do
     bindBuffer gl ARRAY_BUFFER $ Just texCoordBuffer
     texCoord <- fmap (uncheckedCastTo ArrayBuffer) $
         liftDOM (new (jsg ("Float32Array" :: Text))
-            [[ 0.0,  0.0,
-               1.0,  0.0,
-               0.0,  1.0,
-               0.0,  1.0,
-               1.0,  0.0,
-               1.0,  1.0 :: Double]])
+            [[ 0.0,  1.0,
+               1.0,  1.0,
+               0.0,  0.0,
+               0.0,  0.0,
+               1.0,  1.0,
+               1.0,  0.0 :: Double]])
         >>= unsafeCastTo Float32Array
     bufferData gl ARRAY_BUFFER (Just texCoord) STATIC_DRAW
 
@@ -90,7 +90,9 @@ canvas = do
     texParameteri gl TEXTURE_2D TEXTURE_MAG_FILTER NEAREST
     bindTexture gl TEXTURE_2D $ Just texture
 
-    imageData :: ImageData <- fromJust <$> liftJSM (open "./sample/thinning.jpg")
+    -- image <- liftJSM $ open "./sample/thinning.jpg"
+    image <- liftJSM $ open "./sample/thinning2.png"
+    imageData :: ImageData <- toImageData $ fromJust image
 
     -- image <- liftDOM (new (jsg ("Uint8ClampedArray" :: Text))
     --     [[255,   0,   0, 255, --
