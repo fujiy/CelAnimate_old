@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b11cf84146e072fcfcd05b2b06efdb71b041454f7da665f86ff0ddb80722ff0f
+-- hash: c0cdc3b51a969e443f27d2c9986916bb37b7be83d0e3d4879706743c7c74314a
 
 name:           celanimate
 version:        0.1.0.0
@@ -32,6 +32,16 @@ library
       Editor
       Editor.Canvas
       Editor.Main
+      Reflex.Dom.Three
+      Reflex.Dom.Three.Camera
+      Reflex.Dom.Three.Geometory
+      Reflex.Dom.Three.Lib
+      Reflex.Dom.Three.Light
+      Reflex.Dom.Three.Material
+      Reflex.Dom.Three.Mesh
+      Reflex.Dom.Three.Monad
+      Reflex.Dom.Three.Renderer
+      Reflex.Dom.Three.Scene
   other-modules:
       Paths_celanimate
   hs-source-dirs:
@@ -42,12 +52,16 @@ library
     , base >=4.7 && <5
     , bytestring
     , containers
+    , file-embed
     , ghcjs-dom
     , hip
     , jsaddle
     , jsaddle-dom
+    , kdt
     , lens
+    , mtl
     , primitive
+    , reflex
     , reflex-dom
     , reflex-dom-core
     , text
@@ -68,12 +82,16 @@ executable celanimate-exe
     , bytestring
     , celanimate
     , containers
+    , file-embed
     , ghcjs-dom
     , hip
     , jsaddle
     , jsaddle-dom
+    , kdt
     , lens
+    , mtl
     , primitive
+    , reflex
     , reflex-dom
     , reflex-dom-core
     , text
@@ -95,12 +113,16 @@ test-suite celanimate-test
     , bytestring
     , celanimate
     , containers
+    , file-embed
     , ghcjs-dom
     , hip
     , jsaddle
     , jsaddle-dom
+    , kdt
     , lens
+    , mtl
     , primitive
+    , reflex
     , reflex-dom
     , reflex-dom-core
     , text

@@ -24,16 +24,20 @@ dependencies:
 - text
 - bytestring
 - primitive
+- mtl
 - containers
 - vector
 - lens
 - JuicyPixels
 - hip
+- kdt
+- file-embed
 - ghcjs-dom
 - jsaddle
 - jsaddle-dom
-- reflex-dom-core
+- reflex
 - reflex-dom
+- reflex-dom-core
 # - hylogen
 # - ombra
 

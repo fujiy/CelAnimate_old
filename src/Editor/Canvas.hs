@@ -5,6 +5,7 @@
 module Editor.Canvas where
 
 import           Control.Monad.IO.Class
+import           Control.Monad.Trans
 import           Data.Map                            as M
 import           Data.Maybe
 import           Data.Text                           (Text)
@@ -21,9 +22,23 @@ import           Reflex.Dom
 
 import           Animate.Image
 import           Editor
+import           Reflex.Dom.Three
 
 canvas :: Widget x ()
 canvas = do
+    (e, _) <- elAttr' "canvas" ("width" =: "500" <> "height" =: "500") blank
+    (cm, sc) <- liftJSM $ scene $ do
+            geo <- lift $ boxGeometory 100 100 100
+            mtr <- lift $ meshBasicMaterial 0xFF0000
+            mesh geo mtr
+            ambientLight 0xFFFFFF 1.0
+            perspectiveCamera 45 1 1 1000
+            -- orthographicCamera 10 10 10 10 1 100
+    render e cm sc
+
+
+
+
     (e, _) <- elAttr' "canvas" ("width" =: "1000" <> "height" =: "1000") blank
     cv :: HTMLCanvasElement <- unsafeCastTo HTMLCanvasElement $ _element_raw e
     -- ctx <- getContextUnsafe cv ("2d" :: Text) ([] :: [()])
@@ -90,8 +105,8 @@ canvas = do
     texParameteri gl TEXTURE_2D TEXTURE_MAG_FILTER NEAREST
     bindTexture gl TEXTURE_2D $ Just texture
 
-    -- image <- liftJSM $ open "./sample/thinning.jpg"
-    image <- liftJSM $ open "./sample/thinning2.png"
+    image <- liftJSM $ open "./sample/thinning.jpg"
+    -- image <- liftJSM $ open "./sample/thinning2.png"
     imageData :: ImageData <- toImageData $ fromJust image
 
     -- image <- liftDOM (new (jsg ("Uint8ClampedArray" :: Text))

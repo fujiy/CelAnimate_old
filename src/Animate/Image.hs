@@ -27,9 +27,8 @@ import qualified Data.Vector.Storable               as V
 import qualified Data.Vector.Storable.Mutable       as MV
 import           Data.Word
 import           Debug.Trace
-import qualified Foreign                            as F
 import qualified GHCJS.Buffer                       as JS
-import           GHCJS.DOM
+-- import           GHCJS.DOM
 import           GHCJS.DOM.ImageData
 import           GHCJS.DOM.Types                    hiding (Text)
 import           Graphics.Image                     (Complex, Image, MImage,
@@ -38,7 +37,7 @@ import qualified Graphics.Image                     as I
 import qualified Graphics.Image.Interface           as I
 import qualified Graphics.Image.IO                  as I
 import qualified JavaScript.TypedArray.ArrayBuffer  as JS
-import           Language.Javascript.JSaddle.Object hiding ((!))
+import           Language.Javascript.JSaddle.Object
 import           Language.Javascript.JSaddle.Types
 
 import           Editor
@@ -119,18 +118,19 @@ readBorder image (y, x) =
         x'     = min w $ max 0 x
     in  I.read image (y', x')
 
+
 getCenters :: Image VS Y Double -> Image VS I.HSI Double
 getCenters image =
     let image0 =
             edges
-            $ I.applyFilter (I.gaussianBlur 1.0)
+            $ I.applyFilter (I.gaussianBlur blurRadius)
             image
         image1 = runST $ do
             mimg <- I.thaw image0
             normalize mimg
             fills mimg
             I.freeze mimg
-    in  I.map (compHSI) $ image1
+    in  I.map (compHSI) $ centerline image1
   where
 
     -- clamp = fmap (\x -> x / 2 + 0.5)
@@ -143,6 +143,9 @@ getCenters image =
 
     clamp x | x < 0     = x + 2*pi
             | otherwise = x
+
+blurRadius :: Double
+blurRadius = 3.0
 
 filledMTh, hideCoef :: Pixel Y Double
 filledMTh = 0.5
@@ -199,11 +202,32 @@ normalize image = mapIM_ (\i cp -> do
     I.write image i cp')
     image
 
+centerline :: Image VS Y (Complex Double) -> Image VS Y (Complex Double)
+centerline image = I.traverse image id center
+  where
+    center :: ((Int, Int) -> Pixel Y (Complex Double))
+           -> (Int, Int) -> Pixel Y (Complex Double)
+    center getter (y, x) =
+        let at dy dx   = getter $ clamps (I.dims image) (y + dy, x + dx)
+            cp         = getter (y, x)
+            dx I.:+ dy = I.getPxC cp I.LumaY
+            op         = at (round dy) (round dx)
+            (mc, pc)   = I.polar cp
+            (mo, po)   = I.polar op
+            pd         = phaseDiff pc po
+        in  if mc > filledMTh && mo > filledMTh && pd > pi / 6
+            then I.mkPolar 1 $ normPhase (pc + pd)
+            else 0
+
+
+
 phaseDiff :: Pixel Y Double -> Pixel Y Double -> Pixel Y Double
-phaseDiff x y = let r = x - y
-                in if | r >  pi   -> r - 2 * pi
-                      | r < -pi   -> r + 2 * pi
-                      | otherwise -> r
+phaseDiff x y = normPhase $ x - y
+
+normPhase :: Pixel Y Double -> Pixel Y Double
+normPhase x | x > pi    = x - 2 * pi
+            | x < -pi   = x + 2 * pi
+            | otherwise = x
 
 clamps :: (Int, Int) -> (Int, Int) -> (Int, Int)
 clamps (h, w) (y, x) = (max 0 $ min (h - 1) y, max 0 $ min (w - 1) x)
