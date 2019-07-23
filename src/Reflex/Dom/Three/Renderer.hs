@@ -24,11 +24,11 @@ render elm cm sc = liftJSM $ do
     let elv = _element_raw elm :: RawElement GhcjsDomSpace
 
     options <- obj
-    (options <# ("canvas" :: Text)) elv
-    renderer <- new (three ! ("WebGLRenderer" :: Text)) [options]
+    (options <# "canvas") elv
+    renderer <- new (three ! "WebGLRenderer") [options]
 
 
-    renderer ^. js2 ("setSize" :: Text) ("500" :: Text) ("500" :: Text)
-    renderer ^. js2 ("render" :: Text) sc cm
+    -- renderer ^. js2 "setSize" "1500" "1500"
+    renderer ^. js2 "render" sc cm
 
     return ()

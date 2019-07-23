@@ -15,13 +15,16 @@ module Reflex.Dom.Three.Monad
     , ObjectTimeline
     , Object3D
     , three
+    , newThree
     , addParent
     ) where
 
 import           Control.Lens
 import           Control.Monad.Reader
-import           Data.Text                          (Text)
-import           JSDOM.Types                        hiding (Text)
+import qualified Data.Map                                     as M
+import           Data.Text                                    (Text)
+import           JSDOM.Types                                  hiding (Text)
+import           Language.Javascript.JSaddle.Classes.Internal
 import           Language.Javascript.JSaddle.Object
 import           Reflex.Spider
 
@@ -50,10 +53,15 @@ type ObjectTimeline = Spider
 type Object3D = ObjectBuilderT ObjectTimeline JSM
 
 three :: JSM JSVal
-three = jsg ("THREE" :: Text)
+three = jsg "THREE"
+
+newThree :: MakeArgs args => Text -> args -> JSM JSVal
+newThree n = new (three ! n)
 
 addParent :: (MonadJSM m, ToJSVal a) => a -> ObjectBuilderT t m ()
 addParent x = do
     p <- view parent
-    liftJSM $ p ^. js1 ("add" :: Text) x
+    liftJSM $ p ^. js1 "add" x
     return ()
+
+

@@ -14,7 +14,7 @@ newtype Scene = Scene JSVal deriving (ToJSVal)
 
 scene :: ObjectBuilderT t JSM a -> JSM (a, Scene)
 scene builder = do
-    s <- new (three ! ("Scene" :: Text)) ()
+    s <- new (three ! "Scene") ()
     let env = ObjectBuilderEnv s
     a <- runReaderT (unObjectBuilderT builder) env
     -- s ^. js1t "add" _

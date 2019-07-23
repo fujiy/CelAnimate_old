@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Editor.Main where
 
 
@@ -11,7 +13,7 @@ editor :: Widget x ()
 editor = el "div" $ do
     liftJSM useThree
     el "h1" $ text "Cel"
-    canvas
+    canvas 2000 2000
 
 
 

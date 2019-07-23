@@ -46,6 +46,7 @@ extra-deps:
 - vect-0.4.7
 - gl-0.7.8.1
 - hip-1.5.3.0
+# - clay-0.13.1
 # - ombra-0.1.1.0
 - git: https://github.com/reflex-frp/reflex-dom
   commit: 5ac23be96cfc84bc837cd61dfc03e5e02e431078

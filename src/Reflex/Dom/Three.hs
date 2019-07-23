@@ -9,6 +9,7 @@ module Reflex.Dom.Three
     , module Reflex.Dom.Three.Monad
     , module Reflex.Dom.Three.Renderer
     , module Reflex.Dom.Three.Scene
+    , module Reflex.Dom.Three.Texture
     )where
 
 import           Language.Javascript.JSaddle.Types
@@ -22,4 +23,5 @@ import           Reflex.Dom.Three.Mesh
 import           Reflex.Dom.Three.Monad
 import           Reflex.Dom.Three.Renderer
 import           Reflex.Dom.Three.Scene
+import           Reflex.Dom.Three.Texture
 

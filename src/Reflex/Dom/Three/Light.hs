@@ -15,6 +15,6 @@ ambientLight :: MonadJSM m
              -> Float -- ^ intensity
              -> ObjectBuilderT t m Light
 ambientLight c i = do
-    l <- liftJSM $ new (three ! ("AmbientLight" :: Text)) (c, i)
+    l <- liftJSM $ new (three ! "AmbientLight") (c, i)
     addParent l
     return $ Light l

@@ -9,5 +9,10 @@ import           Reflex.Dom.Three.Monad
 
 mesh :: MonadJSM m => Geometory -> Material -> ObjectBuilderT t m ()
 mesh g m = do
-    ms <- liftJSM $ new (three ! ("Mesh" :: Text)) (g, m)
+    ms <- liftJSM $ new (three ! "Mesh") (g, m)
+    addParent ms
+
+points :: MonadJSM m => Geometory -> Material -> ObjectBuilderT t m ()
+points g m = do
+    ms <- liftJSM $ new (three ! "Points") (g, m)
     addParent ms

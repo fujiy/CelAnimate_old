@@ -28,9 +28,13 @@ dependencies:
 - containers
 - vector
 - lens
+- data-default
 - JuicyPixels
 - hip
 - kdt
+- union-find
+- linear
+- cubicbezier
 - file-embed
 - ghcjs-dom
 - jsaddle
@@ -38,10 +42,11 @@ dependencies:
 - reflex
 - reflex-dom
 - reflex-dom-core
+- clay
 # - hylogen
 # - ombra
 
-default-extensions: OverloadedStrings
+# default-extensions: OverloadedStrings
 
 library:
   source-dirs: src

@@ -1,5 +1,6 @@
 {-# LANGUAGE FlexibleInstances    #-}
 {-# LANGUAGE MonoLocalBinds       #-}
+{-# LANGUAGE TypeFamilies         #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 module Editor where
@@ -16,12 +17,14 @@ import           Reflex.Dom
 type Editor = JSM
 
 class Editable a where
+    type Viewer a :: * -> *
+
     open   :: FilePath -> Editor (Maybe a)
     create :: Editor a
     save   :: FilePath -> a -> Editor ()
     match  :: FilePath -> a -> Bool
 
-    viewer :: a -> Widget x ()
+    viewer :: a -> Viewer a ()
 
     match path a = True
 

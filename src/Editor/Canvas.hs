@@ -4,40 +4,89 @@
 
 module Editor.Canvas where
 
+import qualified Clay.Color                          as C
+import           Control.Monad
 import           Control.Monad.IO.Class
 import           Control.Monad.Trans
-import           Data.Map                            as M
+import qualified Data.Map                            as M
 import           Data.Maybe
 import           Data.Text                           (Text)
-import qualified Data.Text                           as Text
+import qualified Data.Text                           as T
 import           Data.Word
+import           Debug.Trace
+import           Geom2D
 import           GHCJS.DOM                           hiding (Function)
 import           GHCJS.DOM.CanvasRenderingContext2D
 import           GHCJS.DOM.HTMLCanvasElement
 import           GHCJS.DOM.ImageData
 import           GHCJS.DOM.Types                     hiding (Function, Text)
 import           GHCJS.DOM.WebGLRenderingContextBase
+import qualified Graphics.Image                      as I
 import           Language.Javascript.JSaddle.Object  hiding (Function (..))
+import           Linear.V3
 import           Reflex.Dom
 
-import           Animate.Image
 import           Editor
+import           Editor.Animate.Image
+import           Editor.Node.Vectorize
 import           Reflex.Dom.Three
 
-canvas :: Widget x ()
-canvas = do
-    (e, _) <- elAttr' "canvas" ("width" =: "500" <> "height" =: "500") blank
+canvas :: Int -- ^ width
+       -> Int -- ^ height
+       -> Widget x ()
+canvas width height = do
+    (e, _) <- elAttr' "canvas" ("width"  =: tshow width <>
+                                "height" =: tshow height) blank
     (cm, sc) <- liftJSM $ scene $ do
-            geo <- lift $ boxGeometory 100 100 100
-            mtr <- lift $ meshBasicMaterial 0xFF0000
-            mesh geo mtr
-            ambientLight 0xFFFFFF 1.0
-            perspectiveCamera 45 1 1 1000
+            -- geo <- lift $ boxGeometory 100 100 100
+            -- mtr <- lift $ meshBasicMaterial 0xFFFFFF
+            -- mesh geo mtr
+
+        -- mimage <- liftJSM $ open "./sample/thinning.jpg"
+        -- mimage <- liftJSM $ open "./sample/thinning2.png"
+        mimage <- liftJSM $ open "./sample/sample.png"
+        let image = fromJust mimage :: RGBAImage
+            (h, w) = I.dims image
+            (im, pts, ends) = getCenters image
+            ps    = (\(Point x y) ->
+                         V3 (x - fromIntegral w/2)
+                         (y - fromIntegral h/2) 1)
+                    <$> pts
+
+        forM (ends) $ \eps -> do
+            let es = (\(Point x y) ->
+                          V3 (x - fromIntegral w/2)
+                         (y - fromIntegral h/2) 2)
+                    <$> eps
+                V3 a b c = head es
+                col = C.toRgba $
+                      C.hsl (abs (round (a * b * 5700)) `mod` 256) 1.0 0.5
+                -- col = C.rgb (abs (round a * 100) `mod` 255)
+                --       (abs (round b * 100) `mod` 255) 255
+            gmt <- geometory es
+            mtr <- pointsMaterial def { _color = col, _size = 1 }
+            points gmt mtr
+
+
+
+
+        gmt <- geometory ps
+        mtr <- pointsMaterial def { _color = C.gray, _size = 1 }
+        points gmt mtr
+
+
+
+        -- viewer im
+        ambientLight 0xFFFFFF 1.0
+        perspectiveCamera 45 1 1 1000
             -- orthographicCamera 10 10 10 10 1 100
     render e cm sc
 
+tshow :: Show a => a -> Text
+tshow = T.pack . show
 
-
+webGLCanvas :: Widget x ()
+webGLCanvas = do
 
     (e, _) <- elAttr' "canvas" ("width" =: "1000" <> "height" =: "1000") blank
     cv :: HTMLCanvasElement <- unsafeCastTo HTMLCanvasElement $ _element_raw e
