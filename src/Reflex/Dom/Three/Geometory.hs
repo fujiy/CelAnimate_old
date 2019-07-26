@@ -7,6 +7,7 @@ import           JSDOM.Types                        hiding (Text)
 import           Language.Javascript.JSaddle.Object
 import           Linear.V3
 
+import           Reflex.Dom.Three.Curve
 import           Reflex.Dom.Three.Monad
 
 newtype Geometory = Geometory JSVal deriving (ToJSVal)
@@ -37,3 +38,12 @@ planeGeometory :: MonadJSM m
 planeGeometory w h =
     Geometory <$> liftJSM (new (three ! "PlaneGeometry") (w, h))
 
+
+curve :: MonadJSM m
+      => Int   -- ^ Number of points
+      -> Curve -- ^ A Curve
+      -> m Geometory
+curve n c = liftJSM $ do
+    points <- toJSVal c # "getPoints" $ [n]
+    geo    <- new (three ! "BoxGeometry") ()
+    Geometory <$> (geo # "setFromPoints") points

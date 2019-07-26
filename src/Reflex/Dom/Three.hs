@@ -2,6 +2,7 @@
 module Reflex.Dom.Three
     ( useThree
     , module Reflex.Dom.Three.Camera
+    , module Reflex.Dom.Three.Curve
     , module Reflex.Dom.Three.Geometory
     , module Reflex.Dom.Three.Light
     , module Reflex.Dom.Three.Material
@@ -15,6 +16,7 @@ module Reflex.Dom.Three
 import           Language.Javascript.JSaddle.Types
 
 import           Reflex.Dom.Three.Camera
+import           Reflex.Dom.Three.Curve
 import           Reflex.Dom.Three.Geometory
 import           Reflex.Dom.Three.Lib
 import           Reflex.Dom.Three.Light

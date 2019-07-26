@@ -29,6 +29,7 @@ dependencies:
 - vector
 - lens
 - data-default
+- extra
 - JuicyPixels
 - hip
 - kdt

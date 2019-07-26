@@ -15,8 +15,8 @@ import qualified Data.Text                           as T
 import           Data.Word
 import           Debug.Trace
 import           Geom2D
+import           Geom2D.CubicBezier
 import           GHCJS.DOM                           hiding (Function)
-import           GHCJS.DOM.CanvasRenderingContext2D
 import           GHCJS.DOM.HTMLCanvasElement
 import           GHCJS.DOM.ImageData
 import           GHCJS.DOM.Types                     hiding (Function, Text)
@@ -47,31 +47,42 @@ canvas width height = do
         mimage <- liftJSM $ open "./sample/sample.png"
         let image = fromJust mimage :: RGBAImage
             (h, w) = I.dims image
-            (im, pts, ends) = getCenters image
+            (im, pts, curves) = getCenters image
             ps    = (\(Point x y) ->
                          V3 (x - fromIntegral w/2)
-                         (y - fromIntegral h/2) 1)
+                         (y - fromIntegral h/2) (1))
                     <$> pts
 
-        forM (ends) $ \eps -> do
-            let es = (\(Point x y) ->
-                          V3 (x - fromIntegral w/2)
-                         (y - fromIntegral h/2) 2)
-                    <$> eps
-                V3 a b c = head es
-                col = C.toRgba $
-                      C.hsl (abs (round (a * b * 5700)) `mod` 256) 1.0 0.5
-                -- col = C.rgb (abs (round a * 100) `mod` 255)
-                --       (abs (round b * 100) `mod` 255) 255
-            gmt <- geometory es
-            mtr <- pointsMaterial def { _color = col, _size = 1 }
-            points gmt mtr
+        forM_ curves $ \c -> do
+            let c' = transform (Transform 1 0 (- fromIntegral w/2)
+                                          0 1 (- fromIntegral h/2)) c
+                Point x y = cubicC0 c'
+                col = C.toRgba
+                    $ C.hsl (abs (round (x * y * 5700)) `mod` 256) 1.0 0.5
+            cv  <- cubicBezier c'
+            gmt <- curve 32 cv
+            mtr <- lineBasicMaterial def { _color = col }
+            line gmt mtr
+
+        -- forM (curves) $ \eps -> do
+        --     let es = (\(Point x y) ->
+        --                   V3 (x - fromIntegral w/2)
+        --                  (y - fromIntegral h/2) 2)
+        --             <$> eps
+        --         V3 a b c = head es
+        --         col = C.toRgba $
+        --               C.hsl (abs (round (a * b * 5700)) `mod` 256) 1.0 0.5
+        --         -- col = C.rgb (abs (round a * 100) `mod` 255)
+        --         --       (abs (round b * 100) `mod` 255) 255
+        --     gmt <- geometory es
+        --     mtr <- pointsMaterial def { _color = col, _size = 1 }
+        --     points gmt mtr
 
 
 
 
         gmt <- geometory ps
-        mtr <- pointsMaterial def { _color = C.gray, _size = 1 }
+        mtr <- pointsMaterial def { _color = C.white, _size = 0.5 }
         points gmt mtr
 
 

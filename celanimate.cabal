@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: cdc0051650f9a8f91bb982744e0356c8a50ff6c4c4c20fe20be26348620e7e37
+-- hash: 7beddc46ab153e01c909fd644459109d764e08a89fe6396239f34ee28e6f8092
 
 name:           celanimate
 version:        0.1.0.0
@@ -36,6 +36,7 @@ library
       Reflex.Dom.Three
       Reflex.Dom.Three.Camera
       Reflex.Dom.Three.Color
+      Reflex.Dom.Three.Curve
       Reflex.Dom.Three.Geometory
       Reflex.Dom.Three.Lib
       Reflex.Dom.Three.Light
@@ -57,6 +58,7 @@ library
     , containers
     , cubicbezier
     , data-default
+    , extra
     , file-embed
     , ghcjs-dom
     , hip
@@ -91,6 +93,7 @@ executable celanimate-exe
     , containers
     , cubicbezier
     , data-default
+    , extra
     , file-embed
     , ghcjs-dom
     , hip
@@ -126,6 +129,7 @@ test-suite celanimate-test
     , containers
     , cubicbezier
     , data-default
+    , extra
     , file-embed
     , ghcjs-dom
     , hip

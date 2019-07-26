@@ -50,3 +50,10 @@ pointsMaterial :: MonadJSM m
 pointsMaterial params =
     Material <$> liftJSM (new (three ! "PointsMaterial")
                           [paramToObject params])
+
+lineBasicMaterial :: MonadJSM m
+                  => MaterialParams
+                  -> m Material
+lineBasicMaterial params =
+    Material <$> liftJSM (new (three ! "LineBasicMaterial")
+                          [paramToObject params])
